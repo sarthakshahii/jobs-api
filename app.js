@@ -26,14 +26,21 @@ swaggerDocs(app);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port= process.env.PORT || 5000
+const port = Number(process.env.PORT);
 
-const start= async()=>{
-    try{
-        await connectDB(process.env.MONGO_URI);
-        app.listen(port, console.log(`Server is listening on port ${port}....`));
-    } catch(err){
-        console.log(err);
-    }
+if (!port) {
+  throw new Error('PORT is not defined');
 }
+
+
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(Number(process.env.PORT), () => {
+      console.log(`Server running on port ${process.env.PORT}`);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 start();
