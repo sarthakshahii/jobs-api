@@ -1,3 +1,4 @@
+const swaggerDocs = require('./swagger');
 require('dotenv').config();
 const express= require('express');
 const app= express();
@@ -18,6 +19,10 @@ app.use('/api/v1/jobs',authenticateUser ,jobsRouter);
 app.get('/', (req, res) => {
   res.send('Jobs API is running...');
 });
+
+swaggerDocs(app);
+
+
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
